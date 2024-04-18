@@ -84,8 +84,8 @@ func createLexer(source string) *lexer {
 			{regexp.MustCompile(`(?s)\/\*.*?\*\/`), skipHandler},
 
 			// LITERALS
-			{regexp.MustCompile(`[0-9]+`), integerHandler},
 			{regexp.MustCompile(`[0-9]+(\.[0-9]+)?`), floatHandler},
+			{regexp.MustCompile(`[0-9]+`), integerHandler},
 			{regexp.MustCompile(`"((?:[^"\\]|\\.)*?)"`), stringHandler},
 			{regexp.MustCompile(`'(\\[^\n']|[^\\'\n]|\\.)'`), charHandler},
 			{regexp.MustCompile(`#include\s*<.*>`), includerHandler},
@@ -108,24 +108,8 @@ func createLexer(source string) *lexer {
 			{regexp.MustCompile(`\?`), defaultHandler(QUESTION, "?")},
 			{regexp.MustCompile(`#`), defaultHandler(POUND, "#")},
 
-			// OPERATORS
-			{regexp.MustCompile(`\+`), defaultHandler(PLUS, "+")},
-			{regexp.MustCompile(`-`), defaultHandler(MINUS, "-")},
-			{regexp.MustCompile(`\*`), defaultHandler(STAR, "*")},
-			{regexp.MustCompile(`/`), defaultHandler(SLASH, "/")},
-			{regexp.MustCompile(`==`), defaultHandler(PERCENT, "%")},
-			{regexp.MustCompile(`!=`), defaultHandler(ESPERLUETTE, "&")},
-			{regexp.MustCompile(`!=`), defaultHandler(PIPE, "|")},
-			{regexp.MustCompile(`!=`), defaultHandler(CARET, "^")},
-			{regexp.MustCompile(`!=`), defaultHandler(TILDE, "~")},
-
 			// COMPARISON
 			{regexp.MustCompile(`==`), defaultHandler(EQUAL, "==")},
-			{regexp.MustCompile(`!=`), defaultHandler(NOT_EQUAL, "!=")},
-			{regexp.MustCompile(`<`), defaultHandler(LESS, "<")},
-			{regexp.MustCompile(`<=`), defaultHandler(LESS_EQUAL, "<=")},
-			{regexp.MustCompile(`>`), defaultHandler(GREATER, ">")},
-			{regexp.MustCompile(`>=`), defaultHandler(GREATER_EQUAL, ">=")},
 
 			// ASSIGNMENT
 			{regexp.MustCompile(`=`), defaultHandler(ASSIGN, "=")},
@@ -141,14 +125,32 @@ func createLexer(source string) *lexer {
 			{regexp.MustCompile(`>>=`), defaultHandler(SHIFT_RIGHT_ASSIGN, ">>=")},
 			{regexp.MustCompile(`->`), defaultHandler(ARROW, "->")},
 
-			// SHIFT
-			{regexp.MustCompile(`<<`), defaultHandler(SHIFT_LEFT, "<<")},
-			{regexp.MustCompile(`>>`), defaultHandler(SHIFT_RIGHT, ">>")},
-
 			// LOGICAL
 			{regexp.MustCompile(`&&`), defaultHandler(LOGICAL_AND, "&&")},
 			{regexp.MustCompile(`\|\|`), defaultHandler(LOGICAL_OR, "||")},
 			{regexp.MustCompile(`!`), defaultHandler(LOGICAL_NOT, "!")},
+
+			// SHIFT
+			{regexp.MustCompile(`<<`), defaultHandler(SHIFT_LEFT, "<<")},
+			{regexp.MustCompile(`>>`), defaultHandler(SHIFT_RIGHT, ">>")},
+
+			// OPERATORS
+			{regexp.MustCompile(`\+`), defaultHandler(PLUS, "+")},
+			{regexp.MustCompile(`-`), defaultHandler(MINUS, "-")},
+			{regexp.MustCompile(`\*`), defaultHandler(STAR, "*")},
+			{regexp.MustCompile(`/`), defaultHandler(SLASH, "/")},
+			{regexp.MustCompile(`%`), defaultHandler(PERCENT, "%")},
+			{regexp.MustCompile(`&`), defaultHandler(ESPERLUETTE, "&")},
+			{regexp.MustCompile(`\|`), defaultHandler(PIPE, "|")},
+			{regexp.MustCompile(`\^`), defaultHandler(CARET, "^")},
+			{regexp.MustCompile(`~`), defaultHandler(TILDE, "~")},
+
+			// COMPARISON
+			{regexp.MustCompile(`!=`), defaultHandler(NOT_EQUAL, "!=")},
+			{regexp.MustCompile(`<`), defaultHandler(LESS, "<")},
+			{regexp.MustCompile(`<=`), defaultHandler(LESS_EQUAL, "<=")},
+			{regexp.MustCompile(`>`), defaultHandler(GREATER, ">")},
+			{regexp.MustCompile(`>=`), defaultHandler(GREATER_EQUAL, ">=")},
 		},
 	}
 }
