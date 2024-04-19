@@ -1,10 +1,10 @@
 package ast
 
-type BlockAst struct {
+type BlockStmt struct {
 	Body []Stmt
 }
 
-func (b *BlockAst) stmt() {}
+func (b *BlockStmt) stmt() {}
 
 type ExprStmt struct {
 	Expr Expr
