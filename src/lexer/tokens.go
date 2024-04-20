@@ -7,6 +7,10 @@ type TokenKind int
 const (
 	EOF TokenKind = iota
 
+	// COMMENTS
+	SINGLE_LINE_COMMENT
+	MULTI_LINE_COMMENT
+
 	// IDENTIFIERS
 	IDENTIFIER
 
@@ -26,6 +30,7 @@ const (
 
 	// LITERALS
 	INTEGER
+	UNSIGNED_INTEGER
 	FLOATING
 	CHARACTER
 	STRING
@@ -87,6 +92,7 @@ const (
 	DOUBLE
 	SIGNED
 	UNSIGNED
+	POINTER
 
 	SIZEOF
 	INCLUDE
@@ -177,7 +183,7 @@ func (t Token) isOneOfMany(expectedTokens ...TokenKind) bool {
 }
 
 func (t Token) Debug() {
-	if t.isOneOfMany(INT, FLOAT, CHAR, STRING, IDENTIFIER, INCLUDER) {
+	if t.isOneOfMany(INTEGER, UNSIGNED_INTEGER, FLOATING, CHARACTER, STRING, IDENTIFIER, INCLUDER, SINGLE_LINE_COMMENT, MULTI_LINE_COMMENT) {
 		fmt.Printf("%s (%s)\n", TokenKindString(t.Kind), t.Value)
 	} else {
 		fmt.Printf("%s ()\n", TokenKindString(t.Kind))
@@ -199,6 +205,10 @@ func TokenKindString(token TokenKind) string {
 		return "EOF"
 	case IDENTIFIER:
 		return "IDENTIFIER"
+	case SINGLE_LINE_COMMENT:
+		return "SINGLE_LINE_COMMENT"
+	case MULTI_LINE_COMMENT:
+		return "MULTI_LINE_COMMENT"
 	case LPAREN:
 		return "LPAREN"
 	case RPAREN:
@@ -225,6 +235,8 @@ func TokenKindString(token TokenKind) string {
 		return "POUND"
 	case INTEGER:
 		return "INTEGER"
+	case UNSIGNED_INTEGER:
+		return "UNSIGNED_INTEGER"
 	case FLOATING:
 		return "FLOATING"
 	case CHARACTER:
@@ -315,6 +327,8 @@ func TokenKindString(token TokenKind) string {
 		return "SIGNED"
 	case UNSIGNED:
 		return "UNSIGNED"
+	case POINTER:
+		return "POINTER"
 	case SIZEOF:
 		return "SIZEOF"
 	case INCLUDE:

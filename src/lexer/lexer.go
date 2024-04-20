@@ -78,13 +78,15 @@ func createLexer(source string) *lexer {
 		source: source,
 		Tokens: make([]Token, 0),
 		patterns: []regexPattern{
-			// Whitespace & comments("//", "/* */")
+			// Whitespace
 			{regexp.MustCompile(`\s+`), skipHandler},
-			{regexp.MustCompile(`\/\/.*`), skipHandler},
-			{regexp.MustCompile(`(?s)\/\*.*?\*\/`), skipHandler},
+
+			// Comments
+			{regexp.MustCompile(`\/\/.*`), singleLineCommentHandler},
+			{regexp.MustCompile(`(?s)\/\*.*?\*\/`), multiLineCommentHandler},
 
 			// LITERALS
-			{regexp.MustCompile(`[0-9]+(\.[0-9]+)?`), floatHandler},
+			{regexp.MustCompile(`[0-9]+(\.[0-9]+)`), floatHandler},
 			{regexp.MustCompile(`[0-9]+`), integerHandler},
 			{regexp.MustCompile(`"((?:[^"\\]|\\.)*?)"`), stringHandler},
 			{regexp.MustCompile(`'(\\[^\n']|[^\\'\n]|\\.)'`), charHandler},
@@ -160,15 +162,31 @@ func skipHandler(lex *lexer, regex *regexp.Regexp) {
 	lex.advanceN(match[1])
 }
 
+func singleLineCommentHandler(lex *lexer, regex *regexp.Regexp) {
+	match := regex.FindStringIndex(lex.remainder())
+	commentLiteral := lex.remainder()[match[0]:match[1]]
+
+	lex.push(NewToken(SINGLE_LINE_COMMENT, commentLiteral, 0, 0))
+	lex.advanceN(len(commentLiteral))
+}
+
+func multiLineCommentHandler(lex *lexer, regex *regexp.Regexp) {
+	match := regex.FindStringIndex(lex.remainder())
+	commentLiteral := lex.remainder()[match[0]:match[1]]
+
+	lex.push(NewToken(MULTI_LINE_COMMENT, commentLiteral, 0, 0))
+	lex.advanceN(len(commentLiteral))
+}
+
 func integerHandler(lex *lexer, regex *regexp.Regexp) {
 	match := regex.FindString(lex.remainder())
-	lex.push(NewToken(INT, match, 0, 0))
+	lex.push(NewToken(INTEGER, match, 0, 0))
 	lex.advanceN(len(match))
 }
 
 func floatHandler(lex *lexer, regex *regexp.Regexp) {
 	match := regex.FindString(lex.remainder())
-	lex.push(NewToken(FLOAT, match, 0, 0))
+	lex.push(NewToken(FLOATING, match, 0, 0))
 	lex.advanceN(len(match))
 }
 
