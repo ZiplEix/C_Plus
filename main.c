@@ -7,14 +7,21 @@
 
 #include <stdio.h>
 
-int main() {
+// int main() {
     // un commentaire
-    int i = 0;
+    int i = 8;
     float f = 0.0;
 
     char *str = "Hello, World!";
 
-    printf("Hello, World! voila un calcule complex : %d\n", 4 * (8 - 7));
+    const char c = 'c';
+    char const c2 = 'c';
 
-    return 0;
-}
+    const const char c3 = 'c';
+
+    unsigned int ui = 56 - 8 * 4;
+
+    // printf("Hello, World! voila un calcule complex : %d\n", 4 * (8 - 6));
+
+    // return 0;
+// }

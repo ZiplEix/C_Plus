@@ -8,11 +8,12 @@ const (
 	EOF TokenKind = iota
 
 	// COMMENTS
-	SINGLE_LINE_COMMENT
-	MULTI_LINE_COMMENT
+
+	SINGLE_LINE_COMMENT // //
+	MULTI_LINE_COMMENT  // /* */
 
 	// IDENTIFIERS
-	IDENTIFIER
+	IDENTIFIER // [a-zA-Z_][a-zA-Z0-9_]*
 
 	// PUNCTUATION
 	LPAREN    // (
@@ -29,12 +30,12 @@ const (
 	POUND     // #
 
 	// LITERALS
-	INTEGER
-	UNSIGNED_INTEGER
-	FLOATING
-	CHARACTER
-	STRING
-	INCLUDER
+	INTEGER          // -13 || 42
+	UNSIGNED_INTEGER // 42u
+	FLOATING         // 3.14
+	CHARACTER        // '...'
+	STRING           // "..."
+	INCLUDER         // #include <...> || #include "..."
 
 	// OPERATORS
 	PLUS        // +
@@ -83,19 +84,19 @@ const (
 	//
 
 	// types
-	VOID
-	CHAR
-	SHORT
-	INT
-	LONG
-	FLOAT
-	DOUBLE
-	SIGNED
-	UNSIGNED
-	POINTER
+	VOID     // void ...
+	CHAR     // char ...
+	SHORT    // short ...
+	INT      // int ...
+	LONG     // long ...
+	FLOAT    // float ...
+	DOUBLE   // double ...
+	SIGNED   // signed type ...
+	UNSIGNED // unsigned type ...
+	POINTER  // *
 
-	SIZEOF
-	INCLUDE
+	SIZEOF // sizeof()
+	// INCLUDE // include ...
 
 	// data classes
 	TYPEDEF
@@ -137,8 +138,8 @@ var reservedKeywords = map[string]TokenKind{
 	"signed":   SIGNED,
 	"unsigned": UNSIGNED,
 
-	"sizeof":  SIZEOF,
-	"include": INCLUDE,
+	"sizeof": SIZEOF,
+	// "include": INCLUDE,
 
 	"typedef": TYPEDEF,
 	"struct":  STRUCT,
@@ -171,6 +172,7 @@ type Token struct {
 	Value string
 	Line  int
 	Col   int
+	Index int
 }
 
 func (t Token) isOneOfMany(expectedTokens ...TokenKind) bool {
@@ -182,7 +184,11 @@ func (t Token) isOneOfMany(expectedTokens ...TokenKind) bool {
 	return false
 }
 
-func (t Token) Debug() {
+func (t Token) Debug(index ...int) {
+	if len(index) > 0 {
+		fmt.Printf("% 3d: ", index[0])
+	}
+
 	if t.isOneOfMany(INTEGER, UNSIGNED_INTEGER, FLOATING, CHARACTER, STRING, IDENTIFIER, INCLUDER, SINGLE_LINE_COMMENT, MULTI_LINE_COMMENT) {
 		fmt.Printf("%s (%s)\n", TokenKindString(t.Kind), t.Value)
 	} else {
@@ -331,8 +337,8 @@ func TokenKindString(token TokenKind) string {
 		return "POINTER"
 	case SIZEOF:
 		return "SIZEOF"
-	case INCLUDE:
-		return "INCLUDE"
+	// case INCLUDE:
+	// 	return "INCLUDE"
 	case TYPEDEF:
 		return "TYPEDEF"
 	case STRUCT:

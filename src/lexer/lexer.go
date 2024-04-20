@@ -17,6 +17,7 @@ type lexer struct {
 	Tokens   []Token
 	source   string
 	pos      int
+	nbTokens int
 }
 
 func (lex *lexer) advanceN(n int) {
@@ -24,6 +25,8 @@ func (lex *lexer) advanceN(n int) {
 }
 
 func (lex *lexer) push(token Token) {
+	lex.nbTokens++
+	token.Index = lex.nbTokens
 	lex.Tokens = append(lex.Tokens, token)
 }
 
@@ -82,8 +85,10 @@ func createLexer(source string) *lexer {
 			{regexp.MustCompile(`\s+`), skipHandler},
 
 			// Comments
-			{regexp.MustCompile(`\/\/.*`), singleLineCommentHandler},
-			{regexp.MustCompile(`(?s)\/\*.*?\*\/`), multiLineCommentHandler},
+			{regexp.MustCompile(`\/\/.*`), skipHandler},
+			{regexp.MustCompile(`(?s)\/\*.*?\*\/`), skipHandler},
+			// {regexp.MustCompile(`\/\/.*`), singleLineCommentHandler},
+			// {regexp.MustCompile(`(?s)\/\*.*?\*\/`), multiLineCommentHandler},
 
 			// LITERALS
 			{regexp.MustCompile(`[0-9]+(\.[0-9]+)`), floatHandler},
@@ -200,9 +205,9 @@ func stringHandler(lex *lexer, regex *regexp.Regexp) {
 
 func charHandler(lex *lexer, regex *regexp.Regexp) {
 	match := regex.FindStringIndex(lex.remainder())
-	charLiteral := lex.remainder()[match[0]:match[1]]
+	charLiteral := lex.remainder()[match[0]+1 : match[1]-1]
 
-	lex.push(NewToken(CHAR, charLiteral, 0, 0))
+	lex.push(NewToken(CHARACTER, charLiteral, 0, 0))
 	lex.advanceN(len(charLiteral) + 2)
 }
 func includerHandler(lex *lexer, regex *regexp.Regexp) {
