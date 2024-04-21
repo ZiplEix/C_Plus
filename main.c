@@ -7,21 +7,23 @@
 
 #include <stdio.h>
 
-// int main() {
+int main(int argc, char const **argv) {
     // un commentaire
     int i = 8;
-    float f = 0.0;
+    // float f = 0.0;
 
-    char *str = "Hello, World!";
+    // int i;
 
-    const char c = 'c';
-    char const c2 = 'c';
+    // char *str = "Hello, World!";
 
-    const const char c3 = 'c';
+    // const char c = 'c';
+    // char const c2 = 'c';
 
-    unsigned int ui = 56 - 8 * 4;
+    // const const char c3 = 'c';
+
+    // unsigned int ui = 56 - 8 * 4;
 
     // printf("Hello, World! voila un calcule complex : %d\n", 4 * (8 - 6));
 
     // return 0;
-// }
+}

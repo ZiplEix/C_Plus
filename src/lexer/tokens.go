@@ -175,7 +175,7 @@ type Token struct {
 	Index int
 }
 
-func (t Token) isOneOfMany(expectedTokens ...TokenKind) bool {
+func (t Token) IsOneOfMany(expectedTokens ...TokenKind) bool {
 	for _, expected := range expectedTokens {
 		if t.Kind == expected {
 			return true
@@ -189,7 +189,7 @@ func (t Token) Debug(index ...int) {
 		fmt.Printf("% 3d: ", index[0])
 	}
 
-	if t.isOneOfMany(INTEGER, UNSIGNED_INTEGER, FLOATING, CHARACTER, STRING, IDENTIFIER, INCLUDER, SINGLE_LINE_COMMENT, MULTI_LINE_COMMENT) {
+	if t.IsOneOfMany(INTEGER, UNSIGNED_INTEGER, FLOATING, CHARACTER, STRING, IDENTIFIER, INCLUDER, SINGLE_LINE_COMMENT, MULTI_LINE_COMMENT) {
 		fmt.Printf("%s (%s)\n", TokenKindString(t.Kind), t.Value)
 	} else {
 		fmt.Printf("%s ()\n", TokenKindString(t.Kind))
