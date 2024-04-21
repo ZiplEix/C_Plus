@@ -172,6 +172,8 @@ func parse_func_declaration_stmt(p *parser, functionName string, isConst, isSign
 }
 
 func parse_return_stmt(p *parser) ast.Stmt {
+	p.advance()
+
 	expr := parse_expr(p, default_bp)
 	p.expect(lexer.SEMICOLON)
 

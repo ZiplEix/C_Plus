@@ -7,6 +7,10 @@
 
 #include <stdio.h>
 
+// void test() {
+//     int i = 0;
+// }
+
 int main(int argc, char const **argv) {
     // un commentaire
     int i = 8;
@@ -25,5 +29,5 @@ int main(int argc, char const **argv) {
 
     // printf("Hello, World! voila un calcule complex : %d\n", 4 * (8 - 6));
 
-    // return 0;
+    return 0;
 }
