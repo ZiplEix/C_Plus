@@ -36,6 +36,7 @@ const (
 	CHARACTER        // '...'
 	STRING           // "..."
 	INCLUDER         // #include <...> || #include "..."
+	INCLUDE_PATH     // <...> || "..."
 
 	// OPERATORS
 	PLUS        // +
@@ -189,7 +190,7 @@ func (t Token) Debug(index ...int) {
 		fmt.Printf("% 3d: ", index[0])
 	}
 
-	if t.IsOneOfMany(INTEGER, UNSIGNED_INTEGER, FLOATING, CHARACTER, STRING, IDENTIFIER, INCLUDER, SINGLE_LINE_COMMENT, MULTI_LINE_COMMENT) {
+	if t.IsOneOfMany(INTEGER, UNSIGNED_INTEGER, FLOATING, CHARACTER, STRING, IDENTIFIER, INCLUDE_PATH, SINGLE_LINE_COMMENT, MULTI_LINE_COMMENT) {
 		fmt.Printf("%s (%s)\n", TokenKindString(t.Kind), t.Value)
 	} else {
 		fmt.Printf("%s ()\n", TokenKindString(t.Kind))
@@ -251,6 +252,8 @@ func TokenKindString(token TokenKind) string {
 		return "STRING"
 	case INCLUDER:
 		return "INCLUDER"
+	case INCLUDE_PATH:
+		return "INCLUDE_PATH"
 	case PLUS:
 		return "PLUS"
 	case MINUS:

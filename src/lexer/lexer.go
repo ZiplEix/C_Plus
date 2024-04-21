@@ -214,7 +214,13 @@ func includerHandler(lex *lexer, regex *regexp.Regexp) {
 	match := regex.FindStringIndex(lex.remainder())
 	includeLiteral := lex.remainder()[match[0]:match[1]]
 
-	lex.push(NewToken(INCLUDER, includeLiteral, 0, 0))
+	lex.push(NewToken(INCLUDER, "", 0, 0))
+
+	// get the index of the first " or <
+	includePath := includeLiteral[9:]
+
+	lex.push(NewToken(INCLUDE_PATH, includePath, 0, 0))
+
 	lex.advanceN(len(includeLiteral) + 2)
 }
 
