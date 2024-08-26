@@ -198,6 +198,8 @@ func parse_comment_stmt(p *parser) ast.Stmt {
 }
 
 func parse_includer_stmt(p *parser) ast.Stmt {
+	p.expect(lexer.INCLUDER) // skip the includer token
+
 	return &ast.IncluderStmt{
 		Value: p.advance().Value,
 	}

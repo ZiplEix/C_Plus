@@ -66,3 +66,24 @@ func parse_binary_expr(p *parser, left ast.Expr, bp binding_power) ast.Expr {
 		Right:    right,
 	}
 }
+
+// func parse_call_expr(p *parser, left ast.Expr, _ binding_power) ast.Expr {
+// 	p.expect(lexer.LPAREN) // consume the LPAREN
+
+// 	args := []ast.Expr{}
+
+// 	for p.currentTokenKind() != lexer.RPAREN {
+// 		args = append(args, parse_expr(p, default_bp))
+
+// 		if p.currentTokenKind() == lexer.COMMA {
+// 			p.advance()
+// 		}
+// 	}
+
+// 	p.expect(lexer.RPAREN)
+
+// 	return ast.CallExpr{
+// 		Func: left,
+// 		Args: args,
+// 	}
+// }

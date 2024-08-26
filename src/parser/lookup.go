@@ -93,6 +93,9 @@ func createTokenLookup() {
 	nud(lexer.STRING, primary, parse_primary_expr)
 	nud(lexer.IDENTIFIER, primary, parse_primary_expr)
 
+	// Computed / Call
+	// led(lexer.LPAREN, call, parse_call_expr)
+
 	// Statements
 	stmt(lexer.MULTI_LINE_COMMENT, parse_comment_stmt)
 	stmt(lexer.SINGLE_LINE_COMMENT, parse_comment_stmt)

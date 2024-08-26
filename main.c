@@ -27,6 +27,8 @@
 
     // unsigned int ui = 56 - 8 * 4;
 
+    int i = 5 * (8 - 6);
+
     // printf("Hello, World! voila un calcule complex : %d\n", 4 * (8 - 6));
 
     // return 0;
